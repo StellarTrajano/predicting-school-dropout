@@ -64,7 +64,7 @@ outputs/
 
 docs/             # reports and documentation
 ```
-## 📄 Documentation
+## Documentation
 
 - [Data Dictionary](docs/data_dictionary.md)
 
