@@ -2,7 +2,8 @@
 ![Machine Learning](https://img.shields.io/badge/Machine-Learning-green)
 ![Education Analytics](https://img.shields.io/badge/Domain-Education-orange)
 
-# Predicting School Dropout in Brazil
+# School Dropout in Brazil 🇧🇷
+### Spatial Analysis and Robust Machine Learning Modeling
 
 ## Overview
 

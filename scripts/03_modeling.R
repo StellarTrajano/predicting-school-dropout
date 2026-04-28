@@ -93,9 +93,8 @@ modelo_rob = lmrob(
 pred_rob = predict(modelo_rob, test)
 
 #Cross-validation
-'''K-Fold: trainControl(method = "cv", number = 5)
-LOOCV: trainControl(method = "LOOCV")
-'''
+#K-Fold: trainControl(method = "cv", number = 5)/LOOCV: trainControl(method = "LOOCV")
+
 #####################################################################
 
 resultados <- tibble(
@@ -119,7 +118,7 @@ resultados <- tibble(
 resultados %>% arrange(MAE)
 
 '''modelo           MAE MedAE
-   Random Forest   3.50  2.27
+   Random Forest   3.50  2.28
    Huber           3.54  2.20
 -> Robust (lmrob)  3.54  2.15 <-
    Decision Tree   3.88  3.20
@@ -202,10 +201,11 @@ ggplot(base_real, aes(x = as.numeric(as.character(SERIE)))) +
     color = ""
   ) +
   
-  theme_minimal() +
+  theme_classic() +
+  
   theme(
-    legend.position = "top",
-    plot.title = element_text(face = "bold")
+    plot.title = element_text(face = "bold"),
+    axis.ticks.x = element_blank()
   )
 
 
