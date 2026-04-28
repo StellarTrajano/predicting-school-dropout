@@ -1,5 +1,6 @@
-![R](https://img.shields.io/badge/language-R-blue)
-![Status](https://img.shields.io/badge/status-in%20progress-yellow)
+![R](https://img.shields.io/badge/R-Statistical%20Modeling-blue)
+![Machine Learning](https://img.shields.io/badge/Machine-Learning-green)
+![Education Analytics](https://img.shields.io/badge/Domain-Education-orange)
 
 # Predicting School Dropout in Brazil
 
