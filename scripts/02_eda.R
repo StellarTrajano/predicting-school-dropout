@@ -220,9 +220,11 @@ ggplot(mapa) +
     fill = "Dropout Rate (%)"
   ) +
   
-  theme_void() +
+  theme_classic() +
+  
   theme(
-    plot.title = element_text(face = "bold")
+    plot.title = element_text(face = "bold"),
+    axis.ticks.x = element_blank()
   )
 
 ggsave(
@@ -259,7 +261,7 @@ ggplot(mapa_priv) +
     fill = "Dropout Rate (%)"
   ) +
   
-  theme_void() +
+  theme_classic() +
   theme(
     plot.title = element_text(face = "bold")
   )
