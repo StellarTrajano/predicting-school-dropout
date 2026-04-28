@@ -3,79 +3,217 @@
 
 # Predicting School Dropout in Brazil
 
-## Objective
-This project aims to analyze and predict school dropout rates across Brazilian municipalities, considering:
-- Urban vs Rural location
-- Public vs Private schools
-- Regional differences
+## Overview
 
-## Data Source
+School dropout is a multidimensional phenomenon that directly impacts educational development, workforce qualification, and broader social indicators in Brazil. Understanding its structural patterns is essential for designing effective educational policies and intervention strategies.
 
-The dataset was obtained from the Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira (Inep), through the Open Data Portal, specifically from:
-
-**Indicadores Educacionais: Taxas de Transição (2021–2022)**
-
-The data contains information at the municipal level, including school characteristics and student outcomes.
+This project investigates school dropout behavior across Brazilian municipalities using official educational flow indicators from the Brazilian National Institute of Educational Studies and Research (INEP), focusing on identifying spatial, structural, and educational patterns associated with student dropout.
 
 ---
 
-## Key Variables
+## Objective
 
-### Target Variables
-- `TEV_EF`: Dropout rate in Elementary School
-- `TEV_EM`: Dropout rate in High School
+The main objective of this study is to analyze the determinants of school dropout rates in Brazil and identify the school stages most associated with higher dropout risk.
 
-### School Flow Indicators
-- `TPROM_EF`: Promotion rate
-- `TREP_EF`: Repetition rate
+Specifically, this project aims to:
 
-### School Characteristics
-- `AREA`: Urban or rural
-- `DEPENDENCIA`: Public or private
+- Explore dropout distribution across municipalities;
+- Compare dropout behavior by school area (urban and rural);
+- Compare dropout behavior by school dependency (public and private);
+- Evaluate the relationship between dropout and repetition rates;
+- Estimate dropout patterns using robust machine learning models.
 
-### Geographic Information
-- `REGIAO`: Region of Brazil
-- `UF`: State
-- `COD_MUNIC`: Municipality code
+---
 
-## Methodology
+## Dataset
 
-* Data cleaning and preprocessing
-* Exploratory data analysis (EDA)
-* Modeling (to be defined)
+**Source:** INEP — Educational Flow Indicators (2021–2022)
+
+The dataset contains municipal-level educational indicators across Brazil.
+
+### Variables
+
+#### Identification Variables
+
+- `REGIAO`: Brazilian region  
+- `UF`: State  
+- `COD_MUNIC`: Municipality code  
+- `MUNIC`: Municipality name  
+- `AREA`: School area (urban or rural)  
+- `DEPENDENCIA`: School dependency (public or private)
+
+#### Educational Indicators
+
+- `TPROM`: Promotion Rate  
+- `TREP`: Repetition Rate  
+- `TEV`: Dropout Rate  
+- `SERIE`: School grade
+
+---
+
+## Data Cleaning
+
+Before analysis, the original Excel dataset required preprocessing:
+
+- Removal of non-tabular headers and embedded image elements;
+- Restructuring merged cells;
+- Renaming variables into analytical format;
+- Converting character variables into numeric format;
+- Reshaping data into long format for grade-level analysis.
+
+---
+
+## Exploratory Data Analysis (EDA)
+
+The exploratory analysis focused on understanding dropout patterns by geography and school structure.
+
+### 1. Spatial Distribution of Dropout Rates
+
+Figure 1 shows the average dropout rate by municipality across Brazil.
+
+![Figure 1](outputs/figures/fig1_dropout_map.png)
+
+The spatial distribution reveals strong regional heterogeneity, with higher concentrations of dropout rates in the Northern region, particularly in Pará.
+
+---
+
+### 2. Dropout by School Area
+
+Figure 2 compares dropout behavior between urban and rural schools.
+
+![Figure 2](outputs/figures/fig2_dropout_area.png)
+
+The results indicate distinct dropout trajectories across school locations, suggesting structural differences related to infrastructure, accessibility, and local socioeconomic conditions.
+
+---
+
+### 3. Dropout by School Dependency
+
+Figure 3 compares public and private schools.
+
+![Figure 3](outputs/figures/fig3_dropout_dependency.png)
+
+Public schools consistently show higher dropout rates across grades, although both systems exhibit critical transition points.
+
+---
+
+### 4. Distribution Analysis
+
+Figure 4 presents the distribution of dropout rates.
+
+![Figure 4](outputs/figures/fig4_dropout_histogram.png)
+
+Figure 5 presents the boxplot of dropout rates.
+
+![Figure 5](outputs/figures/fig5_dropout_boxplot.png)
+
+The distribution is positively skewed and contains several outliers, indicating violation of standard linear regression assumptions.
+
+---
+
+## Modeling
+
+Given the asymmetric distribution and presence of outliers, robust regression methods were adopted.
+
+### Models Tested
+
+- Linear Regression  
+- Decision Tree  
+- Random Forest  
+- Huber Regression  
+- Robust Linear Regression (`lmrob`)
+
+### Features Used
+
+- `TREP` (Repetition Rate)  
+- `SERIE` (School Grade)
+
+### Target Variable
+
+- `TEV` (Dropout Rate)
+
+---
+
+## Model Performance
+
+| Model | MAE | MedAE |
+|---|---:|---:|
+| Random Forest | 3.50 | 2.28 |
+| Huber Regression | 3.54 | 2.2 |
+| Robust Regression (`lmrob`) | 3.54 | 2.15 |
+| Decision Tree | 3.88 | 3.20 |
+
+Random Forest achieved the best Mean Absolute Error (MAE), while Robust Regression achieved the best Median Absolute Error (MedAE), indicating stronger resistance to outliers.
+
+---
+
+## Model Interpretation
+
+Robust regression identified two major predictors of school dropout:
+
+- School grade progression;
+- Repetition rate.
+
+Results indicate that:
+
+- A 1 percentage point increase in repetition rate is associated with an average increase of approximately 0.12 percentage points in dropout rate;
+- Dropout risk increases progressively throughout the school trajectory;
+- The highest dropout effects are concentrated in:
+  - 9th grade of Elementary School;
+  - 1st year of High School;
+  - 2nd year of High School.
+
+These findings suggest that school progression has stronger predictive power than repetition rate alone.
+
+---
+
+## Model Fit
+
+Figure 6 compares observed and predicted dropout rates.
+
+![Figure 6](outputs/figures/fig6_model_fit.png)
+
+The robust model successfully captures the overall dropout trend across grades, particularly the transition points between educational stages. However, it tends to underestimate higher dropout levels, suggesting the presence of additional structural factors not included in the model.
+
+---
+
+## Key Findings
+
+- School dropout increases significantly in later grades;
+- Public schools exhibit higher dropout rates than private schools;
+- Rural schools tend to present higher dropout rates than urban schools;
+- Repetition rate is positively associated with dropout;
+- Grade progression is the strongest predictor of dropout.
+
+---
+
+## Technologies Used
+
+- R  
+- tidyverse  
+- ggplot2  
+- sf  
+- geobr  
+- MASS  
+- robustbase  
+- randomForest  
+- rpart
+
+---
 
 ## Project Structure
 
-This repository is organized as follows:
-
-```bash
-data/
-  ├── raw/        # original datasets
-  └── processed/  # cleaned datasets
-
-scripts/
-  ├── 01_data_cleaning.R
-  ├── 02_eda.R
-  └── 03_modeling.R
-
-outputs/
-  ├── tables/
-  └── figures/
-
-docs/             # reports and documentation
-```
-## Documentation
-
-- [Data Dictionary](docs/data_dictionary.md)
-
-## Tools
-
-* R
-* tidyverse
-* dplyr
-
-## Future Steps
-
-* Regional modeling
-* Capital vs non-capital comparison
-* Machine learning models
+```text
+├── data
+│   ├── raw
+│   └── processed
+├── scripts
+│   ├── 01_data_cleaning.R
+│   ├── 02_eda.R
+│   └── 03_modeling.R
+├── outputs
+│   ├── figures
+│   └── tables
+├── docs
+│   └── data_dictionary.md
+└── README.md
