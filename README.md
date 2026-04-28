@@ -171,7 +171,7 @@ These findings suggest that school progression has stronger predictive power tha
 
 Figure 6 compares observed and predicted dropout rates.
 
-![Figure 6](outputs/figures/fig6_model_fit.png)
+![Figure 6](outputs/figures/fig6_observed_vs_predicted.png)
 
 The robust model successfully captures the overall dropout trend across grades, particularly the transition points between educational stages. However, it tends to underestimate higher dropout levels, suggesting the presence of additional structural factors not included in the model.
 
